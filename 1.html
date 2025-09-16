@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Budget Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="calculator-container">
+    <div class="calculator-card">
+      <h2>Budget Calculator</h2>
+
+      <div class="input-group">
+        <label>Total Amount</label>
+        <input type="number" id="totalAmount" placeholder="e.g. 10000">
+      </div>
+
+      <div class="input-group">
+        <label>Room Rent (%)</label>
+        <input type="number" id="rent" placeholder="e.g. 30">
+      </div>
+
+      <div class="input-group">
+        <label>Accessories (%)</label>
+        <input type="number" id="accessories" placeholder="e.g. 20">
+      </div>
+
+      <div class="input-group">
+        <label>Emergency (%)</label>
+        <input type="number" id="emergency" placeholder="e.g. 30">
+      </div>
+
+      <div class="input-group">
+        <label>Savings (%)</label>
+        <input type="number" id="saving" placeholder="e.g. 20">
+      </div>
+
+      <button id="calculateBtn"> Evaluate My Money</button>
+
+      <div class="result" id="result" style="display: none;">
+        <h3> Your Budget Breakdown:</h3>
+        <div id="rentResult"></div>
+        <div id="accessoriesResult"></div>
+        <div id="emergencyResult"></div>
+        <div id="savingResult"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="jquery-3.7.1.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#calculateBtn').click(function () {
+        let total = parseFloat($('#totalAmount').val());
+        let rent = parseFloat($('#rent').val());
+        let accessories = parseFloat($('#accessories').val());
+        let emergency = parseFloat($('#emergency').val());
+        let saving = parseFloat($('#saving').val());
+
+        if (isNaN(total) || isNaN(rent) || isNaN(accessories) || isNaN(emergency) || isNaN(saving)) {
+          alert("Please enter all values correctly.");
+          return;
+        }
+
+        let totalPercent = rent + accessories + emergency + saving;
+        if (totalPercent !== 100) {
+          alert("The total percentage must be exactly 100%.");
+          return;
+        }
+
+        let rentVal = (rent / 100) * total;
+        let accVal = (accessories / 100) * total;
+        let emerVal = (emergency / 100) * total;
+        let saveVal = (saving / 100) * total;
+
+        $('#rentResult').html(`<strong>Room Rent:</strong> ₹${rentVal.toFixed(2)}`);
+        $('#accessoriesResult').html(`<strong>Accessories:</strong> ₹${accVal.toFixed(2)}`);
+        $('#emergencyResult').html(`<strong>Emergency:</strong> ₹${emerVal.toFixed(2)}`);
+        $('#savingResult').html(`<strong>Savings:</strong> ₹${saveVal.toFixed(2)}`);
+        
+        $('#result').fadeIn();
+      });
+    });
+  </script>
+</body>
+</html>
